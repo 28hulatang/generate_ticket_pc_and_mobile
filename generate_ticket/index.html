@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义车票</title>
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #f9f5e9; /* 米黄色背景，符合古风风格 */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative; /* 添加相对定位，作为logo绝对定位的参照 */
+        }
+        
+        /* Logo样式 */
+        #logo {
+            position: absolute;
+            top: 5px;
+            left: 20px;
+            width: 100px; /* 固定宽度 */
+            height: 100px; /* 固定高度，与宽度相等确保正圆形 */
+            z-index: 100; /* 确保logo显示在最上层 */
+            border-radius: 50%; /* 圆形裁剪 */
+            object-fit: cover; /* 确保图片填充整个圆形区域 */
+        }
+        
+        /* 标题样式 */
+        h1 {
+            color: #5a3921; /* 深棕色 */
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        /* 容器样式 */
+        .container {
+            display: flex;
+            gap: 40px;
+            max-width: 1600px;
+            width: 100%;
+            align-items: stretch; /* 改为stretch使两个子元素自动伸展到相同高度 */
+        }
+        
+        /* 表单样式 */
+        .form-section {
+            flex: 0 0 350px; /* 固定宽度350px，不伸缩 */
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #5a3921;
+            font-weight: bold;
+            text-align: center; /* 标签居中 */
+        }
+        
+        input[type="text"],
+        input[type="date"] {
+            width: 80%; /* 宽度调整为80% */
+            padding: 10px;
+            border: 1px solid #d4c2a8;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #fff;
+            margin: 0 auto; /* 水平居中 */
+            display: block; /* 确保margin auto生效 */
+        }
+        
+        button {
+            background-color: #5a3921; /* 深棕色按钮 */
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 0 auto; /* 按钮居中 */
+        }
+        
+        button:hover {
+            background-color: #7d5a43;
+        }
+        
+        button:disabled {
+            background-color: #a89078;
+            cursor: not-allowed;
+        }
+        
+        /* 预览区域样式 */
+        .preview-section {
+            flex: 1; /* 占据剩余空间 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* 添加与表单区域一致的背景色 */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加与表单区域一致的阴影效果 */
+        }
+        
+        #canvas {
+            border: 2px solid #d4c2a8;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* 下载按钮样式 */
+        #downloadBtn {
+            background-color: #5a3921;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        #downloadBtn:hover {
+            background-color: #7d5a43;
+        }
+        
+        #downloadBtn:disabled {
+            background-color: #a89078;
+            cursor: not-allowed;
+        }
+        
+        /* 加载提示 */
+        .loading {
+            font-style: italic;
+            color: #5a3921;
+        }
+        
+        /* 自定义字体（汉仪尚巍手书） */
+        @font-face {
+            font-family: 'HanYiShangWeiShouShu';
+            src: url('HYShangWeiShouShuW.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo图标 -->
+    <img id="logo" src="logo1.jpeg" alt="Logo">
+    
+    <h1>自定义行程图生成器</h1>
+    
+    <div class="container">
+        <!-- 表单区域 -->
+        <div class="form-section">
+            <form id="inputForm">
+                <div class="form-group">
+                    <label for="startPlace">始发地</label>
+                    <input type="text" id="startPlace" placeholder="袋袋小筑" value="袋袋小筑">
+                </div>
+                
+                <div class="form-group">
+                    <label for="endPlace">目的地</label>
+                    <input type="text" id="endPlace" placeholder="洛阳">
+                </div>
+                
+                <div class="form-group">
+                    <label for="name">称呼</label>
+                    <input type="text" id="name" placeholder="朵朵">
+                </div>
+                
+                <div class="form-group">
+                    <label for="date">时间</label>
+                    <input type="date" id="date">
+                </div>
+                
+                <button type="submit" id="generateBtn">生成图片</button>
+            </form>
+        </div>
+        
+        <!-- 预览区域 -->
+        <div class="preview-section">
+            <canvas id="canvas" width="1400" height="875"></canvas>
+            <button id="downloadBtn" disabled>下载图片</button>
+        </div>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const form = document.getElementById('inputForm');
+        const generateBtn = document.getElementById('generateBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // 模板图片
+        const templateImg = new Image();
+        
+        // 图片加载状态标记
+        let imgLoaded = false;
+        let imgError = false;
+        
+        // 页面加载完成后初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            // 设置图片加载事件
+            templateImg.onload = () => {
+                imgLoaded = true;
+                console.log('图片加载完成，开始绘制');
+                ctx.drawImage(templateImg, 0, 0, canvas.width, canvas.height);
+            };
+            
+            templateImg.onerror = () => {
+                imgError = true;
+                console.error('模板图片加载失败');
+                alert('模板图片加载失败，请检查图片路径是否正确。');
+            };
+            
+            // 加载图片
+            templateImg.src = 'template-bg.png?timestamp=' + Date.now(); // 添加时间戳防止缓存
+        });
+        
+        // 检查图片是否已经在缓存中加载完成
+        if (templateImg.complete && templateImg.naturalHeight !== 0) {
+            imgLoaded = true;
+            ctx.drawImage(templateImg, 0, 0, canvas.width, canvas.height);
+            console.log('图片已从缓存加载并绘制');
+        } else {
+            console.log('开始加载图片...');
+        }
+        
+        // 文字绘制配置
+        const textConfig = {
+            font: 'SimSun, serif', // 使用宋体，无则使用系统默认衬线体
+            fontWeight: 'bold',
+            labelSize: 22, // 标签文字大小
+            valueSize: 32, // 用户输入值文字大小
+            labelColor: '#5a3921', // 标签文字颜色
+            valueColor: '#000000' // 用户输入值文字颜色
+        };
+        
+        // 文字位置配置（按比例缩小到Canvas尺寸范围内的坐标）
+        // 缩放比例：1400 / 2482 ≈ 0.564
+        const positions = [
+            { valueX: 1210, valueY: 192 },  // 始发地中点坐标（原始：2482, 266）
+            { valueX: 1210, valueY: 369 },  // 目的地中点坐标（原始：2482, 525）
+            { valueX: 1210, valueY: 545 },  // 称呼中点坐标（原始：2482, 785）
+            { valueX: 1210, valueY: 752 }   // 时间中点坐标（原始：2482, 1088）
+        ];
+        
+        // 监听表单提交事件
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            generateImage();
+        });
+        
+        // 监听下载按钮点击事件
+        downloadBtn.addEventListener('click', () => {
+            downloadImage();
+        });
+        
+        // 生成图片函数
+        function generateImage() {
+            // 显示加载状态
+            generateBtn.disabled = true;
+            generateBtn.textContent = '生成中...';
+            downloadBtn.disabled = true;
+            
+            // 检查图片是否加载失败
+            if (imgError) {
+                alert('模板图片加载失败，请检查图片路径是否正确。');
+                generateBtn.disabled = false;
+                generateBtn.textContent = '生成图片';
+                return;
+            }
+            
+            // 清空画布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 处理图片加载
+            if (imgLoaded) {
+                // 图片已加载，直接绘制
+                drawImageAndText();
+            } else {
+                // 图片未加载完成，等待加载
+                // 重新绑定onload事件（避免被覆盖）
+                templateImg.onload = () => {
+                    imgLoaded = true;
+                    drawImageAndText();
+                };
+                
+                templateImg.onerror = () => {
+                    imgError = true;
+                    alert('模板图片加载失败，请检查图片路径是否正确。');
+                    generateBtn.disabled = false;
+                    generateBtn.textContent = '生成图片';
+                };
+            }
+        }
+        
+        // 绘制图片和文字的辅助函数
+        function drawImageAndText() {
+            // 绘制模板背景图
+            ctx.drawImage(templateImg, 0, 0, canvas.width, canvas.height);
+            
+            // 获取用户输入
+            const inputs = {
+                startPlace: document.getElementById('startPlace').value || '未填写',
+                endPlace: document.getElementById('endPlace').value || '未填写',
+                name: document.getElementById('name').value || '未填写',
+                date: document.getElementById('date').value || '未知时间'
+            };
+            
+            // 绘制文字
+            drawText(inputs);
+            
+            // 恢复按钮状态
+            generateBtn.disabled = false;
+            generateBtn.textContent = '生成图片';
+            downloadBtn.disabled = false;
+        }
+        
+        // 绘制文字函数
+        function drawText(inputs) {
+            // 设置用户输入值样式
+            ctx.font = `${textConfig.valueSize}px ${textConfig.font}`;
+            ctx.fillStyle = textConfig.valueColor;
+            ctx.textAlign = 'center';  // 设置文字居中对齐，使用中点坐标
+            
+            // 绘制用户输入值（移除标签绘制）
+            ctx.fillText(inputs.startPlace, positions[0].valueX, positions[0].valueY);
+            ctx.fillText(inputs.endPlace, positions[1].valueX, positions[1].valueY);
+            ctx.fillText(inputs.name, positions[2].valueX, positions[2].valueY);
+            ctx.fillText(inputs.date, positions[3].valueX, positions[3].valueY);
+        }
+        
+        // 下载图片函数
+        function downloadImage() {
+            // 创建下载链接
+            const link = document.createElement('a');
+            link.download = '自定义行程图.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        // 移除重复的onload事件设置
+    </script>
+</body>
+</html>

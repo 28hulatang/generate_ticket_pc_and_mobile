@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义行程图生成器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Logo图标 -->
+    <img id="logo" src="images/logo.jpg" alt="Logo">
+    
+    <h1>自定义行程图生成器</h1>
+    
+    <div class="container">
+        <!-- 表单区域 -->
+        <div class="form-section">
+            <form id="inputForm">
+                <div class="form-group">
+                    <label for="startPlace">始发地</label>
+                    <input type="text" id="startPlace" placeholder="袋袋小筑" value="袋袋小筑">
+                </div>
+                
+                <div class="form-group">
+                    <label for="endPlace">目的地</label>
+                    <input type="text" id="endPlace" placeholder="洛阳">
+                </div>
+                
+                <div class="form-group">
+                    <label for="name">称呼</label>
+                    <input type="text" id="name" placeholder="朵朵">
+                </div>
+                
+                <div class="form-group">
+                    <label for="date">时间</label>
+                    <input type="date" id="date">
+                </div>
+                
+                <button type="submit" id="generateBtn">生成图片</button>
+            </form>
+        </div>
+        
+        <!-- 预览区域 -->
+        <div class="preview-section">
+            <canvas id="canvas" width="1400" height="875"></canvas>
+            <button id="downloadBtn" disabled>下载图片</button>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>

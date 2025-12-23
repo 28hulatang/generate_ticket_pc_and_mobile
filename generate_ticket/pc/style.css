@@ -1,0 +1,150 @@
+/* 全局样式 */
+body {
+    font-family: 'Microsoft YaHei', sans-serif;
+    background-color: #f9f5e9; /* 米黄色背景，符合古风风格 */
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; /* 添加相对定位，作为logo绝对定位的参照 */
+}
+
+/* Logo样式 */
+#logo {
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    width: 100px; /* 固定宽度 */
+    height: 100px; /* 固定高度，与宽度相等确保正圆形 */
+    z-index: 100; /* 确保logo显示在最上层 */
+    border-radius: 50%; /* 圆形裁剪 */
+    object-fit: cover; /* 确保图片填充整个圆形区域 */
+}
+
+/* 标题样式 */
+h1 {
+    color: #5a3921; /* 深棕色 */
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+/* 容器样式 */
+.container {
+    display: flex;
+    gap: 40px;
+    max-width: 1600px;
+    width: 100%;
+    align-items: stretch; /* 改为stretch使两个子元素自动伸展到相同高度 */
+}
+
+/* 表单样式 */
+.form-section {
+    flex: 0 0 350px; /* 固定宽度350px，不伸缩 */
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #5a3921;
+    font-weight: bold;
+    text-align: center; /* 标签居中 */
+}
+
+input[type="text"],
+input[type="date"] {
+    width: 80%; /* 宽度调整为80% */
+    padding: 10px;
+    border: 1px solid #d4c2a8;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #fff;
+    margin: 0 auto; /* 水平居中 */
+    display: block; /* 确保margin auto生效 */
+}
+
+button {
+    background-color: #5a3921; /* 深棕色按钮 */
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;
+    margin: 0 auto; /* 按钮居中 */
+}
+
+button:hover {
+    background-color: #7d5a43;
+}
+
+button:disabled {
+    background-color: #a89078;
+    cursor: not-allowed;
+}
+
+/* 预览区域样式 */
+.preview-section {
+    flex: 1; /* 占据剩余空间 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* 添加与表单区域一致的背景色 */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加与表单区域一致的阴影效果 */
+}
+
+#canvas {
+    border: 2px solid #d4c2a8;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    height: auto;
+}
+
+/* 下载按钮样式 */
+#downloadBtn {
+    background-color: #5a3921;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#downloadBtn:hover {
+    background-color: #7d5a43;
+}
+
+#downloadBtn:disabled {
+    background-color: #a89078;
+    cursor: not-allowed;
+}
+
+/* 加载提示 */
+.loading {
+    font-style: italic;
+    color: #5a3921;
+}
+
+/* 自定义字体（汉仪尚巍手书） */
+@font-face {
+    font-family: 'HYShangWeiShouShuW';
+    src: url('fonts/HYShangWeiShouShuW.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

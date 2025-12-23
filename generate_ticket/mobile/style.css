@@ -1,0 +1,145 @@
+/* 全局样式 */
+body {
+    font-family: 'Microsoft YaHei', sans-serif;
+    background-color: #f9f5e9; /* 米黄色背景，符合古风风格 */
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* Logo样式 */
+#logo {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 60px; /* 移动端缩小logo尺寸 */
+    height: 60px;
+    z-index: 100;
+    border-radius: 50%; /* 圆形裁剪 */
+    object-fit: cover;
+}
+
+/* 标题样式 */
+h1 {
+    color: #5a3921; /* 深棕色 */
+    margin: 20px 0 30px 0;
+    font-size: 24px;
+    text-align: center;
+    width: 100%;
+}
+
+/* 容器样式 */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* 表单样式 */
+.form-section {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #5a3921;
+    font-weight: bold;
+    text-align: center;
+}
+
+input[type="text"],
+input[type="date"] {
+    width: 95%; /* 宽度调整为95% */
+    padding: 10px;
+    border: 1px solid #d4c2a8;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #fff;
+    margin: 0 auto;
+    display: block;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #5a3921; /* 深棕色按钮 */
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;
+    margin: 0 auto;
+    width: 80%; /* 全屏宽80%，增大触摸区域 */
+    box-sizing: border-box;
+}
+
+button:hover {
+    background-color: #7d5a43;
+}
+
+button:disabled {
+    background-color: #a89078;
+    cursor: not-allowed;
+}
+
+/* 预览区域样式 */
+.preview-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+#canvas {
+    border: 2px solid #d4c2a8;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    height: auto;
+}
+
+/* 下载按钮样式 */
+#downloadBtn {
+    background-color: #5a3921;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 80%;
+}
+
+#downloadBtn:hover {
+    background-color: #7d5a43;
+}
+
+#downloadBtn:disabled {
+    background-color: #a89078;
+    cursor: not-allowed;
+}
